@@ -55,6 +55,25 @@
             :delimiters  "`"}
            (dissoc opts :host :port :db))))
 
+(defn kylin
+      "Create a  for the kylin. Opts should include keys
+      for :port, :user, and :password. You can also optionally set host and port.
+      Delimiters are automatically set to \"`\"."
+      [{:keys [host port]
+        :or   {host "10.1.2.199", port 7070}
+        :as   opts}]
+      (let [extra-connection-params (remove-required-keys opts)]
+           (merge {:auth "basic"
+                   :authorization "Basic QURNSU46S1lMSU4="
+                   :prefix "kylin/api"
+                   :timeout 30
+                   :version "v1"
+                   :is_pushdown "False"
+                   :scheme (if :ssl "https" "http")
+                   :subprotocol "kylin"
+                   :delimiters  "`"}
+                  (dissoc opts :host :port))))
+
 
 ;; !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ;; !!                                                                                                               !!
