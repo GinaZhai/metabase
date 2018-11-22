@@ -155,7 +155,7 @@
           (do-request http/get \"http://my-json-api.net\")"
        [request-fn url & {:as options}]
        {:pre [(fn? request-fn) (string? url)]}
-       (let [options               (cond-> (merge {:content-type "application/json"} options)
+       (let [options               (cond-> (merge {:content-type "application/json" :basic-auth ["ADMIN" "KYLIN"]} options)
                                            (:body options) (update :body json/generate-string))
              {:keys [status body]} (request-fn url options)]
             (when (not= status 200)
@@ -408,29 +408,19 @@
                                                          :placeholder  (tru "default")
                                                          :required     true
                                                          :default "default"}
-                                                        {:name "basic"
-                                                         :display-name "basic"
-                                                         :placeholder  "basic"
-                                                         :required     true
-                                                         :default "basic"}
-                                                        {:name "v1"
-                                                         :display-name "v1"
-                                                         :placeholder  "v1"
-                                                         :required     true
-                                                         :default "v1"}
                                                         {:name "Basic QURNSU46S1lMSU4="
                                                          :display-name "authorization"
                                                          :placeholder  "authorization"
                                                          :required     true
                                                          :default "authorization"}
-                                                        driver/default-user-details
-                                                        driver/default-password-details
+                                                        ;;driver/default-user-details
+                                                        ;;driver/default-password-details
                                                         ;; (assoc driver/default-additional-options-details
                                                         ;;:placeholder "tinyInt1isBit=false")
                                                         ]))
                          :execute-query     (fn [_ query] (qp/execute-query do-query-with-cancellation query))
                          :humanize-connection-error-message (u/drop-first-arg humanize-connection-error-message)
-                         :current-db-time (driver/make-current-db-time-fn kylin-db-time-query kylin-date-formatters)
+                         ;;:current-db-time (driver/make-current-db-time-fn kylin-db-time-query kylin-date-formatters)
                          :features                          (fn [this]
                                                                 ;; MySQL LIKE clauses are case-sensitive or not based on whether the
                                                                 ;; collation of the server and the columns themselves. Since this isn't
